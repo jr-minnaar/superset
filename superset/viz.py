@@ -44,11 +44,11 @@ class BaseViz(object):
     credits = ""
     is_timeseries = False
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'metrics', 'groupby',
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         'metrics', 'groupby',
+                     )
+                 },)
     form_overrides = {}
 
     def __init__(self, datasource, form_data, slice_=None):
@@ -323,8 +323,8 @@ class BaseViz(object):
         if self.datasource.cache_timeout:
             return self.datasource.cache_timeout
         if (
-                hasattr(self.datasource, 'database') and
-                self.datasource.database.cache_timeout):
+                    hasattr(self.datasource, 'database') and
+                    self.datasource.database.cache_timeout):
             return self.datasource.database.cache_timeout
         return config.get("CACHE_DEFAULT_TIMEOUT")
 
@@ -418,7 +418,7 @@ class BaseViz(object):
                 m.metric_name: m.d3format
                 for m in self.datasource.metrics
                 if m.d3format
-            },
+                },
         }
         return content
 
@@ -492,22 +492,22 @@ class TableViz(BaseViz):
     verbose_name = _("Table View")
     credits = 'a <a href="https://github.com/airbnb/superset">Superset</a> original'
     fieldsets = ({
-        'label': _("GROUP BY"),
-        'description': _('Use this section if you want a query that aggregates'),
-        'fields': ('groupby', 'metrics')
-    }, {
-        'label': _("NOT GROUPED BY"),
-        'description': _('Use this section if you want to query atomic rows'),
-        'fields': ('all_columns', 'order_by_cols'),
-    }, {
-        'label': _("Options"),
-        'fields': (
-            'table_timestamp_format',
-            'row_limit',
-            'page_length',
-            ('include_search', 'table_filter'),
-        )
-    })
+                     'label': _("GROUP BY"),
+                     'description': _('Use this section if you want a query that aggregates'),
+                     'fields': ('groupby', 'metrics')
+                 }, {
+                     'label': _("NOT GROUPED BY"),
+                     'description': _('Use this section if you want to query atomic rows'),
+                     'fields': ('all_columns', 'order_by_cols'),
+                 }, {
+                     'label': _("Options"),
+                     'fields': (
+                         'table_timestamp_format',
+                         'row_limit',
+                         'page_length',
+                         ('include_search', 'table_filter'),
+                     )
+                 })
     form_overrides = ({
         'metrics': {
             'default': [],
@@ -532,8 +532,8 @@ class TableViz(BaseViz):
     def get_data(self):
         df = self.get_df()
         if (
-                self.form_data.get("granularity") == "all" and
-                DTTM_ALIAS in df):
+                        self.form_data.get("granularity") == "all" and
+                        DTTM_ALIAS in df):
             del df[DTTM_ALIAS]
 
         return dict(
@@ -554,14 +554,14 @@ class PivotTableViz(BaseViz):
     credits = 'a <a href="https://github.com/airbnb/superset">Superset</a> original'
     is_timeseries = False
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'groupby',
-            'columns',
-            'metrics',
-            'pandas_aggfunc',
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         'groupby',
+                         'columns',
+                         'metrics',
+                         'pandas_aggfunc',
+                     )
+                 },)
 
     def query_obj(self):
         d = super(PivotTableViz, self).query_obj()
@@ -577,8 +577,8 @@ class PivotTableViz(BaseViz):
         if not metrics:
             raise Exception("Please choose at least one metric")
         if (
-                any(v in groupby for v in columns) or
-                any(v in columns for v in groupby)):
+                    any(v in groupby for v in columns) or
+                    any(v in columns for v in groupby)):
             raise Exception("groupby and columns can't overlap")
 
         d['groupby'] = list(set(groupby) | set(columns))
@@ -587,8 +587,8 @@ class PivotTableViz(BaseViz):
     def get_data(self):
         df = self.get_df()
         if (
-                self.form_data.get("granularity") == "all" and
-                DTTM_ALIAS in df):
+                        self.form_data.get("granularity") == "all" and
+                        DTTM_ALIAS in df):
             del df[DTTM_ALIAS]
         df = df.pivot_table(
             index=self.form_data.get('groupby'),
@@ -611,9 +611,9 @@ class MarkupViz(BaseViz):
     viz_type = "markup"
     verbose_name = _("Markup")
     fieldsets = ({
-        'label': None,
-        'fields': ('markup_type', 'code')
-    },)
+                     'label': None,
+                     'fields': ('markup_type', 'code')
+                 },)
     is_timeseries = False
 
     def get_data(self):
@@ -631,9 +631,9 @@ class DebugViz(BaseViz):
     viz_type = "debug_vis"
     verbose_name = _("Debug")
     fieldsets = ({
-        'label': None,
-        'fields': ('code', )
-    },)
+                     'label': None,
+                     'fields': ('code',)
+                 },)
     is_timeseries = False
 
     def get_data(self):
@@ -648,9 +648,9 @@ class SpiderGraphViz(BaseViz):
     viz_type = "spidergraph"
     verbose_name = _("Spider graph")
     fieldsets = ({
-        'label': None,
-        'fields': ('series', 'metrics')
-    },)
+                     'label': None,
+                     'fields': ('series', 'metrics')
+                 },)
     is_timeseries = False
 
     def query_obj(self):
@@ -705,13 +705,13 @@ class WordCloudViz(BaseViz):
     verbose_name = _("Word Cloud")
     is_timeseries = False
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'series', 'metric', 'limit',
-            ('size_from', 'size_to'),
-            'rotation',
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         'series', 'metric', 'limit',
+                         ('size_from', 'size_to'),
+                         'rotation',
+                     )
+                 },)
 
     def query_obj(self):
         d = super(WordCloudViz, self).query_obj()
@@ -738,18 +738,18 @@ class TreemapViz(BaseViz):
     credits = '<a href="https://d3js.org">d3.js</a>'
     is_timeseries = False
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'metrics',
-            'groupby',
-        ),
-    }, {
-        'label': _('Chart Options'),
-        'fields': (
-            'treemap_ratio',
-            'number_format',
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         'metrics',
+                         'groupby',
+                     ),
+                 }, {
+                     'label': _('Chart Options'),
+                     'fields': (
+                         'treemap_ratio',
+                         'number_format',
+                     )
+                 },)
 
     def _nest(self, metric, df):
         nlevels = df.index.nlevels
@@ -769,6 +769,51 @@ class TreemapViz(BaseViz):
         return chart_data
 
 
+class MekkoViz(BaseViz):
+    """Tree map visualisation for hierarchical data."""
+
+    viz_type = "mekko"
+    verbose_name = _("Mekko chart")
+    credits = '<a href="https://d3js.org">d3.js</a>'
+    is_timeseries = False
+    fieldsets = ({
+                     'label': None,
+                     'fields': (
+                         'metrics',
+                         'groupby',
+                     ),
+                 },)
+
+    def get_data(self):
+        df = self.get_df()
+
+        x_axis = self.form_data.get('groupby')[0]
+        y_axis = self.form_data.get('groupby')[1]
+        metric = self.form_data.get('metrics')[0]
+
+        # df = df.pivot_table(values='value', index=x_axis, columns=y_axis)
+        # df.drop(['Calendar Time', 'Unplanned Time'], inplace=True)
+        # df = df.unstack().reset_index().rename(columns={0: 'value'})
+        df.loc[:, metric] = df.loc[:, metric].astype(float)
+        df = df.sort_values(by=[metric], ascending=False)
+
+        payload = {
+            "data": df.to_dict(orient='records'),
+            "form_data": {
+                "number_format": ",.0f",
+                "x_axis": x_axis,
+                "y_axis": y_axis,
+                "metric": metric
+            }
+        }
+
+        return payload
+
+    # def get_df(self, query_obj=None):
+    #     df = super(MekkoViz, self).get_df(query_obj)
+    #     return df
+
+
 class CalHeatmapViz(BaseViz):
 
     """Calendar heatmap."""
@@ -779,21 +824,21 @@ class CalHeatmapViz(BaseViz):
         '<a href=https://github.com/wa0x6e/cal-heatmap>cal-heatmap</a>')
     is_timeseries = True
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'metric',
-            'domain_granularity',
-            'subdomain_granularity',
-        ),
-    },)
+                     'label': None,
+                     'fields': (
+                         'metric',
+                         'domain_granularity',
+                         'subdomain_granularity',
+                     ),
+                 },)
 
     def get_data(self):
         df = self.get_df()
         form_data = self.form_data
 
         df.columns = ["timestamp", "metric"]
-        timestamps = {str(obj["timestamp"].value / 10**9):
-                      obj.get("metric") for obj in df.to_dict("records")}
+        timestamps = {str(obj["timestamp"].value / 10 ** 9):
+                          obj.get("metric") for obj in df.to_dict("records")}
 
         start = utils.parse_human_datetime(form_data.get("since"))
         end = utils.parse_human_datetime(form_data.get("until"))
@@ -808,9 +853,9 @@ class CalHeatmapViz(BaseViz):
         elif domain == "week":
             range_ = diff_delta.years * 53 + diff_delta.weeks + 1
         elif domain == "day":
-            range_ = diff_secs // (24*60*60) + 1
+            range_ = diff_secs // (24 * 60 * 60) + 1
         else:
-            range_ = diff_secs // (60*60) + 1
+            range_ = diff_secs // (60 * 60) + 1
 
         return {
             "timestamps": timestamps,
@@ -845,17 +890,17 @@ class BoxPlotViz(NVD3Viz):
     sort_series = False
     is_timeseries = True
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'metrics',
-            'groupby', 'limit',
-        ),
-    }, {
-        'label': _('Chart Options'),
-        'fields': (
-            'whisker_options',
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         'metrics',
+                         'groupby', 'limit',
+                     ),
+                 }, {
+                     'label': _('Chart Options'),
+                     'fields': (
+                         'whisker_options',
+                     )
+                 },)
 
     def get_df(self, query_obj=None):
         form_data = self.form_data
@@ -951,21 +996,21 @@ class BubbleViz(NVD3Viz):
     verbose_name = _("Bubble Chart")
     is_timeseries = False
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'series', 'entity',
-            'x', 'y',
-            'size', 'limit',
-        )
-    }, {
-        'label': _('Chart Options'),
-        'fields': (
-            ('x_log_scale', 'y_log_scale'),
-            ('show_legend', None),
-            'max_bubble_size',
-            ('x_axis_label', 'y_axis_label'),
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         'series', 'entity',
+                         'x', 'y',
+                         'size', 'limit',
+                     )
+                 }, {
+                     'label': _('Chart Options'),
+                     'fields': (
+                         ('x_log_scale', 'y_log_scale'),
+                         ('show_legend', None),
+                         'max_bubble_size',
+                         ('x_axis_label', 'y_axis_label'),
+                     )
+                 },)
 
     def query_obj(self):
         form_data = self.form_data
@@ -1020,14 +1065,14 @@ class BulletViz(NVD3Viz):
     verbose_name = _("Bullet Chart")
     is_timeseries = False
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'metric',
-            'ranges', 'range_labels',
-            'markers', 'marker_labels',
-            'marker_lines', 'marker_line_labels',
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         'metric',
+                         'ranges', 'range_labels',
+                         'markers', 'marker_labels',
+                         'marker_lines', 'marker_line_labels',
+                     )
+                 },)
 
     def query_obj(self):
         form_data = self.form_data
@@ -1084,14 +1129,14 @@ class BigNumberViz(BaseViz):
     credits = 'a <a href="https://github.com/airbnb/superset">Superset</a> original'
     is_timeseries = True
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'metric',
-            'compare_lag',
-            'compare_suffix',
-            'y_axis_format',
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         'metric',
+                         'compare_lag',
+                         'compare_suffix',
+                         'y_axis_format',
+                     )
+                 },)
     form_overrides = {
         'y_axis_format': {
             'label': _('Number format'),
@@ -1134,13 +1179,13 @@ class BigNumberTotalViz(BaseViz):
     credits = 'a <a href="https://github.com/airbnb/superset">Superset</a> original'
     is_timeseries = False
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'metric',
-            'subheader',
-            'y_axis_format',
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         'metric',
+                         'subheader',
+                         'y_axis_format',
+                     )
+                 },)
     form_overrides = {
         'y_axis_format': {
             'label': _('Number format'),
@@ -1180,37 +1225,37 @@ class NVD3TimeSeriesViz(NVD3Viz):
     sort_series = False
     is_timeseries = True
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'metrics',
-            'groupby',
-            ('limit', 'timeseries_limit_metric'),
-        ),
-    }, {
-        'label': _('Chart Options'),
-        'fields': (
-            ('show_brush', 'show_legend'),
-            ('rich_tooltip', 'y_axis_zero'),
-            ('y_log_scale', 'contribution'),
-            ('show_markers', 'x_axis_showminmax'),
-            ('line_interpolation', None),
-            ('x_axis_format', 'y_axis_format'),
-            ('x_axis_label', 'y_axis_label'),
-        ),
-    }, {
-        'label': _('Advanced Analytics'),
-        'description': _(
-            "This section contains options "
-            "that allow for advanced analytical post processing "
-            "of query results"),
-        'fields': (
-            ('rolling_type', 'rolling_periods'),
-            'time_compare',
-            ('num_period_compare', 'period_ratio_type'),
-            None,
-            ('resample_how', 'resample_rule',), 'resample_fillmethod'
-        ),
-    },)
+                     'label': None,
+                     'fields': (
+                         'metrics',
+                         'groupby',
+                         ('limit', 'timeseries_limit_metric'),
+                     ),
+                 }, {
+                     'label': _('Chart Options'),
+                     'fields': (
+                         ('show_brush', 'show_legend'),
+                         ('rich_tooltip', 'y_axis_zero'),
+                         ('y_log_scale', 'contribution'),
+                         ('show_markers', 'x_axis_showminmax'),
+                         ('line_interpolation', None),
+                         ('x_axis_format', 'y_axis_format'),
+                         ('x_axis_label', 'y_axis_label'),
+                     ),
+                 }, {
+                     'label': _('Advanced Analytics'),
+                     'description': _(
+                         "This section contains options "
+                         "that allow for advanced analytical post processing "
+                         "of query results"),
+                     'fields': (
+                         ('rolling_type', 'rolling_periods'),
+                         'time_compare',
+                         ('num_period_compare', 'period_ratio_type'),
+                         None,
+                         ('resample_how', 'resample_rule',), 'resample_fillmethod'
+                     ),
+                 },)
 
     def get_df(self, query_obj=None):
         form_data = self.form_data
@@ -1305,7 +1350,7 @@ class NVD3TimeSeriesViz(NVD3Viz):
                 "values": [
                     {'x': ds, 'y': ys[ds] if ds in ys else None}
                     for ds in df[DTTM_ALIAS]
-                ],
+                    ],
             }
             chart_data.append(d)
         return chart_data
@@ -1340,21 +1385,21 @@ class NVD3DualLineViz(NVD3Viz):
     sort_series = False
     is_timeseries = True
     fieldsets = ({
-        'label': _('Chart Options'),
-        'fields': ('x_axis_format',),
-    }, {
-        'label': _('Y Axis 1'),
-        'fields': (
-            'metric',
-            'y_axis_format'
-        ),
-    }, {
-        'label': _('Y Axis 2'),
-        'fields': (
-            'metric_2',
-            'y_axis_2_format'
-        ),
-    },)
+                     'label': _('Chart Options'),
+                     'fields': ('x_axis_format',),
+                 }, {
+                     'label': _('Y Axis 1'),
+                     'fields': (
+                         'metric',
+                         'y_axis_format'
+                     ),
+                 }, {
+                     'label': _('Y Axis 2'),
+                     'fields': (
+                         'metric_2',
+                         'y_axis_2_format'
+                     ),
+                 },)
     form_overrides = {
         'y_axis_format': {
             'label': _('Left Axis Format'),
@@ -1422,8 +1467,8 @@ class NVD3DualLineViz(NVD3Viz):
                 "values": [
                     {'x': ds, 'y': ys[ds] if ds in ys else None}
                     for ds in df[DTTM_ALIAS]
-                ],
-                "yAxis": i+1,
+                    ],
+                "yAxis": i + 1,
                 "type": "line"
             }
             chart_data.append(d)
@@ -1499,15 +1544,15 @@ class DistributionPieViz(NVD3Viz):
     verbose_name = _("Distribution - NVD3 - Pie Chart")
     is_timeseries = False
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'metrics', 'groupby',
-            'limit',
-            'pie_label_type',
-            ('donut', 'show_legend'),
-            'labels_outside',
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         'metrics', 'groupby',
+                         'limit',
+                         'pie_label_type',
+                         ('donut', 'show_legend'),
+                         'labels_outside',
+                     )
+                 },)
 
     def query_obj(self):
         d = super(DistributionPieViz, self).query_obj()
@@ -1537,17 +1582,17 @@ class HistogramViz(BaseViz):
     verbose_name = _("Histogram")
     is_timeseries = False
     fieldsets = ({
-        'label': None,
-        'fields': (
-            ('all_columns_x',),
-            'row_limit',
-        )
-    }, {
-        'label': _("Histogram Options"),
-        'fields': (
-            'link_length',
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         ('all_columns_x',),
+                         'row_limit',
+                     )
+                 }, {
+                     'label': _("Histogram Options"),
+                     'fields': (
+                         'link_length',
+                     )
+                 },)
 
     form_overrides = {
         'all_columns_x': {
@@ -1587,19 +1632,19 @@ class DistributionBarViz(DistributionPieViz):
     verbose_name = _("Distribution - Bar Chart")
     is_timeseries = False
     fieldsets = ({
-        'label': _('Chart Options'),
-        'fields': (
-            'groupby',
-            'columns',
-            'metrics',
-            'row_limit',
-            ('show_legend', 'show_bar_value', 'bar_stacked'),
-            ('y_axis_format', 'bottom_margin'),
-            ('x_axis_label', 'y_axis_label'),
-            ('reduce_x_ticks', 'contribution'),
-            ('show_controls', 'order_bars'),
-        )
-    },)
+                     'label': _('Chart Options'),
+                     'fields': (
+                         'groupby',
+                         'columns',
+                         'metrics',
+                         'row_limit',
+                         ('show_legend', 'show_bar_value', 'bar_stacked'),
+                         ('y_axis_format', 'bottom_margin'),
+                         ('x_axis_label', 'y_axis_label'),
+                         ('reduce_x_ticks', 'contribution'),
+                         ('show_controls', 'order_bars'),
+                     )
+                 },)
     form_overrides = {
         'groupby': {
             'label': _('Series'),
@@ -1677,13 +1722,13 @@ class SunburstViz(BaseViz):
         'Kerry Rodden '
         '@<a href="https://bl.ocks.org/kerryrodden/7090426">bl.ocks.org</a>')
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'groupby',
-            'metric', 'secondary_metric',
-            'row_limit',
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         'groupby',
+                         'metric', 'secondary_metric',
+                         'row_limit',
+                     )
+                 },)
     form_overrides = {
         'metric': {
             'label': _('Primary Metric'),
@@ -1736,13 +1781,13 @@ class SankeyViz(BaseViz):
     is_timeseries = False
     credits = '<a href="https://www.npmjs.com/package/d3-sankey">d3-sankey on npm</a>'
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'groupby',
-            'metric',
-            'row_limit',
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         'groupby',
+                         'metric',
+                         'row_limit',
+                     )
+                 },)
     form_overrides = {
         'groupby': {
             'label': _('Source / Target'),
@@ -1800,19 +1845,19 @@ class DirectedForceViz(BaseViz):
     credits = 'd3noob @<a href="http://bl.ocks.org/d3noob/5141278">bl.ocks.org</a>'
     is_timeseries = False
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'groupby',
-            'metric',
-            'row_limit',
-        )
-    }, {
-        'label': _('Force Layout'),
-        'fields': (
-            'link_length',
-            'charge',
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         'groupby',
+                         'metric',
+                         'row_limit',
+                     )
+                 }, {
+                     'label': _('Force Layout'),
+                     'fields': (
+                         'link_length',
+                         'charge',
+                     )
+                 },)
     form_overrides = {
         'groupby': {
             'label': _('Source / Target'),
@@ -1842,20 +1887,20 @@ class WorldMapViz(BaseViz):
     is_timeseries = False
     credits = 'datamaps on <a href="https://www.npmjs.com/package/datamaps">npm</a>'
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'entity',
-            'country_fieldtype',
-            'metric',
-        )
-    }, {
-        'label': _('Bubbles'),
-        'fields': (
-            ('show_bubbles', None),
-            'secondary_metric',
-            'max_bubble_size',
-        )
-    })
+                     'label': None,
+                     'fields': (
+                         'entity',
+                         'country_fieldtype',
+                         'metric',
+                     )
+                 }, {
+                     'label': _('Bubbles'),
+                     'fields': (
+                         ('show_bubbles', None),
+                         'secondary_metric',
+                         'max_bubble_size',
+                     )
+                 })
     form_overrides = {
         'entity': {
             'label': _('Country Field'),
@@ -1921,13 +1966,13 @@ class FilterBoxViz(BaseViz):
     is_timeseries = False
     credits = 'a <a href="https://github.com/airbnb/superset">Superset</a> original'
     fieldsets = ({
-        'label': None,
-        'fields': (
-            ('date_filter', None),
-            'groupby',
-            'metric',
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         ('date_filter', None),
+                         'groupby',
+                         'metric',
+                     )
+                 },)
     form_overrides = {
         'groupby': {
             'label': _('Filter fields'),
@@ -1953,12 +1998,12 @@ class FilterBoxViz(BaseViz):
             qry['groupby'] = [flt]
             df = super(FilterBoxViz, self).get_df(qry)
             d[flt] = [{
-                'id': row[0],
-                'text': row[0],
-                'filter': flt,
-                'metric': row[1]}
-                for row in df.itertuples(index=False)
-            ]
+                          'id': row[0],
+                          'text': row[0],
+                          'filter': flt,
+                          'metric': row[1]}
+                      for row in df.itertuples(index=False)
+                      ]
         return d
 
 
@@ -1971,9 +2016,9 @@ class IFrameViz(BaseViz):
     credits = 'a <a href="https://github.com/airbnb/superset">Superset</a> original'
     is_timeseries = False
     fieldsets = ({
-        'label': None,
-        'fields': ('url',)
-    },)
+                     'label': None,
+                     'fields': ('url',)
+                 },)
 
 
 class ParallelCoordinatesViz(BaseViz):
@@ -1991,15 +2036,15 @@ class ParallelCoordinatesViz(BaseViz):
         'Syntagmatic\'s library</a>')
     is_timeseries = False
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'series',
-            'metrics',
-            'secondary_metric',
-            'limit',
-            ('show_datatable', 'include_series'),
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         'series',
+                         'metrics',
+                         'secondary_metric',
+                         'limit',
+                         ('show_datatable', 'include_series'),
+                     )
+                 },)
 
     def query_obj(self):
         d = super(ParallelCoordinatesViz, self).query_obj()
@@ -2027,21 +2072,21 @@ class HeatmapViz(BaseViz):
         'inspired from mbostock @<a href="http://bl.ocks.org/mbostock/3074470">'
         'bl.ocks.org</a>')
     fieldsets = ({
-        'label': None,
-        'fields': (
-            'all_columns_x',
-            'all_columns_y',
-            'metric',
-        )
-    }, {
-        'label': _('Heatmap Options'),
-        'fields': (
-            'linear_color_scheme',
-            ('xscale_interval', 'yscale_interval'),
-            'canvas_image_rendering',
-            'normalize_across',
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         'all_columns_x',
+                         'all_columns_y',
+                         'metric',
+                     )
+                 }, {
+                     'label': _('Heatmap Options'),
+                     'fields': (
+                         'linear_color_scheme',
+                         ('xscale_interval', 'yscale_interval'),
+                         'canvas_image_rendering',
+                         'normalize_across',
+                     )
+                 },)
 
     def query_obj(self):
         d = super(HeatmapViz, self).query_obj()
@@ -2110,41 +2155,41 @@ class MapboxViz(BaseViz):
     credits = (
         '<a href=https://www.mapbox.com/mapbox-gl-js/api/>Mapbox GL JS</a>')
     fieldsets = ({
-        'label': None,
-        'fields': (
-            ('all_columns_x', 'all_columns_y'),
-            'clustering_radius',
-            'row_limit',
-            'groupby',
-            'render_while_dragging',
-        )
-    }, {
-        'label': _('Points'),
-        'fields': (
-            'point_radius',
-            'point_radius_unit',
-        )
-    }, {
-        'label': _('Labelling'),
-        'fields': (
-            'mapbox_label',
-            'pandas_aggfunc',
-        )
-    }, {
-        'label': _('Visual Tweaks'),
-        'fields': (
-            'mapbox_style',
-            'global_opacity',
-            'mapbox_color',
-        )
-    }, {
-        'label': _('Viewport'),
-        'fields': (
-            'viewport_longitude',
-            'viewport_latitude',
-            'viewport_zoom',
-        )
-    },)
+                     'label': None,
+                     'fields': (
+                         ('all_columns_x', 'all_columns_y'),
+                         'clustering_radius',
+                         'row_limit',
+                         'groupby',
+                         'render_while_dragging',
+                     )
+                 }, {
+                     'label': _('Points'),
+                     'fields': (
+                         'point_radius',
+                         'point_radius_unit',
+                     )
+                 }, {
+                     'label': _('Labelling'),
+                     'fields': (
+                         'mapbox_label',
+                         'pandas_aggfunc',
+                     )
+                 }, {
+                     'label': _('Visual Tweaks'),
+                     'fields': (
+                         'mapbox_style',
+                         'global_opacity',
+                         'mapbox_color',
+                     )
+                 }, {
+                     'label': _('Viewport'),
+                     'fields': (
+                         'viewport_longitude',
+                         'viewport_latitude',
+                         'viewport_zoom',
+                     )
+                 },)
 
     form_overrides = {
         'all_columns_x': {
@@ -2195,18 +2240,18 @@ class MapboxViz(BaseViz):
         else:
             # Ensuring columns chosen are all in group by
             if (label_col and len(label_col) >= 1 and
-                    label_col[0] != "count" and
-                    label_col[0] not in fd.get('groupby')):
+                        label_col[0] != "count" and
+                        label_col[0] not in fd.get('groupby')):
                 raise Exception(
                     "Choice of [Label] must be present in [Group By]")
 
             if (fd.get("point_radius") != "Auto" and
-                    fd.get("point_radius") not in fd.get('groupby')):
+                        fd.get("point_radius") not in fd.get('groupby')):
                 raise Exception(
                     "Choice of [Point Radius] must be present in [Group By]")
 
             if (fd.get('all_columns_x') not in fd.get('groupby') or
-                    fd.get('all_columns_y') not in fd.get('groupby')):
+                        fd.get('all_columns_y') not in fd.get('groupby')):
                 raise Exception(
                     "[Longitude] and [Latitude] columns must be present in [Group By]")
         return d
@@ -2249,7 +2294,7 @@ class MapboxViz(BaseViz):
                     df[fd.get('all_columns_x')],
                     df[fd.get('all_columns_y')],
                     metric_col, point_radius_col)
-            ]
+                ]
         }
 
         return {
@@ -2296,6 +2341,7 @@ viz_types_list = [
     HeatmapViz,
     BoxPlotViz,
     TreemapViz,
+    MekkoViz,
     CalHeatmapViz,
     HorizonViz,
     MapboxViz,
