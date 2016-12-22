@@ -78,6 +78,14 @@ export const fields = {
     description: 'Choose the metric',
   },
 
+  metric_2: {
+    type: 'SelectField',
+    label: 'Right Axis Metric',
+    choices: [],
+    default: null,
+    description: 'Choose a metric for right axis',
+  },
+
   stacked_style: {
     type: 'SelectField',
     label: 'Stacked Style',
@@ -647,6 +655,14 @@ export const fields = {
   y_axis_format: {
     type: 'FreeFormSelectField',
     label: 'Y axis format',
+    default: '.3s',
+    choices: D3_TIME_FORMAT_OPTIONS,
+    description: D3_FORMAT_DOCS,
+  },
+
+  y_axis_2_format: {
+    type: 'FreeFormSelectField',
+    label: 'Right Axis Format',
     default: '.3s',
     choices: D3_TIME_FORMAT_OPTIONS,
     description: D3_FORMAT_DOCS,
