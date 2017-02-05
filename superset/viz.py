@@ -624,6 +624,23 @@ class MarkupViz(BaseViz):
         return dict(html=code)
 
 
+class DebugViz(BaseViz):
+
+    """Debug view"""
+
+    viz_type = "debug_vis"
+    verbose_name = _("Debug")
+    fieldsets = ({
+        'label': None,
+        'fields': ('code', )
+    },)
+    is_timeseries = False
+
+    def get_data(self):
+        code = self.form_data.get("code", '')
+        return dict(html=code, foo='bar')
+
+
 class SeparatorViz(MarkupViz):
 
     """Use to create section headers in a dashboard, similar to `Markup`"""
@@ -2251,6 +2268,7 @@ viz_types_list = [
     MapboxViz,
     HistogramViz,
     SeparatorViz,
+    DebugViz,
 ]
 
 viz_types = OrderedDict([(v.viz_type, v) for v in viz_types_list

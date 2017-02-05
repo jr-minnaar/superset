@@ -271,6 +271,18 @@ const visTypes = {
     ],
   },
 
+  debug_vis: {
+    label: 'Debug',
+    controlPanelSections: [
+      {
+        label: null,
+        fieldSetRows: [
+          ['code'],
+        ],
+      },
+    ],
+  },
+
   pivot_table: {
     label: 'Pivot Table',
     controlPanelSections: [

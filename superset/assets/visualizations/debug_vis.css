@@ -1,0 +1,5 @@
+.debug_vis .slice_container {
+    padding: 10px;
+    overflow: auto;
+    background-color: yellowgreen;
+}
