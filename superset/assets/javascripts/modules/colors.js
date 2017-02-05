@@ -26,6 +26,28 @@ export const bnbColors = [
   '#988b4e',
 ];
 
+// Color related utility functions go in this object
+export const tpColors = [
+  '#3E5FC2', // Secondary	Blue	Tetra Pak Dark Blue
+  '#A40000', // Secondary	Red	Tetra Pak Dark Red
+  '#387A34', // Secondary	Green	Tetra Pak Dark Green
+  '#D96300', // Secondary	Orange	Tetra Pak Dark Orange
+  '#94C6F0', // Secondary	Blue	Tetra Pak Sky Blue
+  '#FF0000', // Secondary	Red	Tetra Pak Medium Red
+  '#4FA74B', // Secondary	Green	Tetra Pak Medium Green
+  '#FF7D17', // Secondary	Orange	Tetra Pak Medium Orange
+  '#B5D9FA', // Secondary	Blue	Tetra Pak Light Blue
+  '#F06673', // Secondary	Red	Tetra Pak Light Red
+  '#8ED64C', // Secondary	Green	Tetra Pak Light Green
+  '#FFA61C', // Secondary	Orange	Tetra Pak Light Orange
+];
+
+// '#000099', // Primary	Blue	Tetra Pak Corporate Blue
+// '#FF0000', // Primary	Red	Tetra Pak Medium Red
+// '#94C6F0', // Primary	Blue	Tetra Pak Blue
+// '#FFFFFF', // Primary	White	Tetra Pak White
+
+
 const spectrums = {
   blue_white_yellow: [
     '#00d1c1',
@@ -60,9 +82,10 @@ export const category21 = (function () {
     stringifyS = stringifyS.replace('---', '');
     if (seen[stringifyS] === undefined) {
       seen[stringifyS] = Object.keys(seen).length;
+      //console.log(seen);
     }
     /* eslint consistent-return: 0 */
-    return bnbColors[seen[stringifyS] % bnbColors.length];
+    return tpColors[seen[stringifyS] % tpColors.length];
   };
 }());
 

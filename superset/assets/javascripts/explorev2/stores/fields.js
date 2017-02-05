@@ -20,10 +20,8 @@ const SERIES_LIMITS = [0, 5, 10, 25, 50, 100, 500];
 
 export const TIME_STAMP_OPTIONS = [
   ['smart_date', 'Adaptative formating'],
-  ['%m/%d/%Y', '%m/%d/%Y | 01/14/2019'],
   ['%Y-%m-%d', '%Y-%m-%d | 2019-01-14'],
-  ['%Y-%m-%d %H:%M:%S', '%Y-%m-%d %H:%M:%S | 2019-01-14 01:32:10'],
-  ['%H:%M:%S', '%H:%M:%S | 01:32:10'],
+  ['%Y-%m', '%Y-%m | 2019-01'],
 ];
 
 const MAP_DATASOURCE_TYPE_TO_EDIT_URL = {
@@ -464,19 +462,21 @@ export const fields = {
     type: 'SelectField',
     freeForm: true,
     label: 'Since',
-    default: '7 days ago',
+    default: '5 years ago',
     choices: formatSelectOptions([
-      '1 hour ago',
-      '12 hours ago',
-      '1 day ago',
-      '7 days ago',
-      '28 days ago',
-      '90 days ago',
-      '1 year ago',
+      // '1 hour ago',
+      // '12 hours ago',
+      // '1 day ago',
+      // '7 days ago',
+      // '28 days ago',
+      // '90 days ago',
+      '3 year ago',
+      '5 year ago',
+      '10 year ago',
       '100 year ago',
     ]),
     description: 'Timestamp from filter. This supports free form typing and ' +
-                 'natural language as in `1 day ago`, `28 days` or `3 years`',
+                 'natural language as in `1 year ago`, `5 years` or `6 months`',
   },
 
   until: {
@@ -486,10 +486,10 @@ export const fields = {
     default: 'now',
     choices: formatSelectOptions([
       'now',
-      '1 day ago',
-      '7 days ago',
-      '28 days ago',
-      '90 days ago',
+      // '1 day ago',
+      // '7 days ago',
+      // '28 days ago',
+      '6 months ago',
       '1 year ago',
     ]),
   },
