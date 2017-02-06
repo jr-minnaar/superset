@@ -641,6 +641,39 @@ class DebugViz(BaseViz):
         return dict(html=code, foo='bar')
 
 
+class SpiderGraphViz(BaseViz):
+
+    """Debug view"""
+
+    viz_type = "spidergraph"
+    verbose_name = _("Spider graph")
+    fieldsets = ({
+        'label': None,
+        'fields': ('series', 'metrics')
+    },)
+    is_timeseries = False
+
+    def query_obj(self):
+        d = super(SpiderGraphViz, self).query_obj()
+
+        # d['metrics'] = [self.form_data.get('metric')]
+        d['groupby'] = [self.form_data.get('series')]
+        return d
+
+    def get_data(self):
+        series = self.form_data.get("series", '')
+        metrics = self.form_data.get("metrics", '')
+
+        df = self.get_df()
+        data = df.set_index(series).to_dict(orient='dict')
+
+        out = []
+        for metric, values in data.items():
+            out.append([{'axis': k, 'value': v} for k, v in values.items()])
+
+        return dict(series=series, metrics=metrics, data=out, foo='bar')
+
+
 class SeparatorViz(MarkupViz):
 
     """Use to create section headers in a dashboard, similar to `Markup`"""
@@ -2269,6 +2302,7 @@ viz_types_list = [
     HistogramViz,
     SeparatorViz,
     DebugViz,
+    SpiderGraphViz,
 ]
 
 viz_types = OrderedDict([(v.viz_type, v) for v in viz_types_list

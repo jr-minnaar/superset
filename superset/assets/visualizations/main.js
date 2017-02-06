@@ -31,5 +31,6 @@ const vizMap = {
   world_map: require('./world_map.js'),
   dual_line: require('./nvd3_vis.js'),
   debug_vis: require('./debug_vis.js'),
+  spidergraph: require('./spidergraph.js'),
 };
 export default vizMap;

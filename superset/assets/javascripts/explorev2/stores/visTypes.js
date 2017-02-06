@@ -759,6 +759,20 @@ const visTypes = {
       },
     },
   },
+
+  spidergraph: {
+    label: 'Spider Graph',
+    controlPanelSections: [
+      {
+        label: null,
+        fieldSetRows: [
+          ['series'],
+          ['metrics'],
+        ],
+      },
+    ],
+  },
+
 };
 
 export default visTypes;
