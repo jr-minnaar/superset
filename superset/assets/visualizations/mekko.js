@@ -144,7 +144,7 @@ function mekko(slice, payload) {
 
 
     legend.each(function (d) {
-      // let id = this.id;
+      let id = this.id;
 
       d3.select(this)
         .append("a")
